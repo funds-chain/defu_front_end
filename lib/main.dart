@@ -1,3 +1,4 @@
+import 'package:defu_front_end/screens/dashboard.dart';
 import 'package:defu_front_end/screens/signUp.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: const SignUpScreen(),
+      home: const DashboardScreen(),
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
+        'dashboard' : (context) => const DashboardScreen(),
       },
     );
   }

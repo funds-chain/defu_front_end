@@ -172,7 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         onPressed: () {},
                         child: const Text(
-                          'Sign In',
+                          'Register',
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),
