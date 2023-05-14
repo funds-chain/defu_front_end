@@ -1,6 +1,7 @@
 import 'package:defu_front_end/screens/dashboard.dart';
 import 'package:defu_front_end/screens/signUp.dart';
 import 'package:defu_front_end/screens/logIn.dart';
+import 'package:defu_front_end/screens/SetPin.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,11 +15,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'logInScreen',
+      initialRoute: 'setPIN',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen' : (context) => const LogIn(),
         'dashboard' : (context) => const DashboardScreen(),
+        'setPIN' : (context) => const SetPIN(),
       },
     );
   }
