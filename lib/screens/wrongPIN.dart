@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class SetPIN extends StatefulWidget {
-  const SetPIN({Key? key}) : super(key: key);
+class WrongPIN extends StatefulWidget {
+  const WrongPIN({Key? key}) : super(key: key);
 
   @override
-  State<SetPIN> createState() => _SetPINState();
+  State<WrongPIN> createState() => _WrongPINState();
 }
 
-class _SetPINState extends State<SetPIN> {
-  final otp = TextEditingController();
+class _WrongPINState extends State<WrongPIN> {
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,7 +26,7 @@ class _SetPINState extends State<SetPIN> {
                 image: AssetImage('assets/images/schema.png'),
               ),
             ),
-            title: const Text('Set Up Wallet PIN'),
+            title: const Text('Confirm Wallet PIN'),
           ),
         ),
         body: Container(
@@ -58,10 +59,10 @@ class _SetPINState extends State<SetPIN> {
                 children: [
                   SizedBox(width: 20,),
                   Text("Enter 6 Digit PIN",
-                  style:TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  )
+                      style:TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      )
                   ),
                 ],
               ),
@@ -69,7 +70,6 @@ class _SetPINState extends State<SetPIN> {
                   padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
                   child: PinCodeTextField(
-                    controller: otp,
                     appContext: context,
                     textStyle: const TextStyle(
                       color: Colors.black54,
@@ -87,9 +87,9 @@ class _SetPINState extends State<SetPIN> {
                       activeColor: Colors.black,
                       inactiveColor: Colors.white70,
                       selectedColor: Colors.black38,
-                      activeFillColor: Color(0xBEBEBE),
-                      selectedFillColor: Color(0xBEBEBE),
-                      inactiveFillColor: Color(0xBEBEBE),
+                      activeFillColor: Color(0xFF6363),
+                      selectedFillColor: Color(0xFF6363),
+                      inactiveFillColor: Color(0xFF6363),
                       shape: PinCodeFieldShape.box,
                       borderRadius: BorderRadius.circular(5),
                       fieldHeight: 50,
@@ -110,29 +110,33 @@ class _SetPINState extends State<SetPIN> {
                   )
               ),
               SizedBox(height: 20,),
-              Center(
-                child: Container(
-                  width: 300 + 100 - 50,
-                  height: 54,
-                  padding: const EdgeInsets.fromLTRB(40.0, 10, 40, 0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color.fromRGBO(22, 86, 185, 1)),
-                  child: TextButton(
-                    child: const Text(
-                      'CONFIRM',
-                      style: TextStyle(
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          fontSize: 20,
-                          fontFamily: 'poppins',
-                          fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: (){
-                      Navigator.pushReplacementNamed(context, 'confirmPIN');
-                    },
+              Row(
+                children: [
+                  SizedBox(width: 20,),
+                  Text("PIN Codes do not match!",
+                  style: TextStyle(
+                    color: Color.fromRGBO(255, 0, 0, 1),
+                    fontSize: 18
                   ),
-                ),
+                  ),
+                ],
               ),
+              Row(
+                children: [
+                  SizedBox(width: 10,),
+                  TextButton(
+                      onPressed: (){
+                        Navigator.pushReplacementNamed(context, 'setPIN');
+                      },
+                      child: Text(
+                        "Try Again",
+                        style: TextStyle(
+                          color: Color.fromRGBO(31, 137, 245, 1),
+                          fontSize: 16
+                        ),
+                      )),
+                ],
+              )
             ],
           ),
         ),
