@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class LogIn extends StatefulWidget {
+  const LogIn({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<LogIn> createState() => _LogInState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: const Text(
-                        'Register As User',
+                        'Login As User',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 36,
@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Row(
                       children: [
                         const Text(
-                          'Already have an account?',
+                          'New User?',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         TextButton(
                           onPressed: () {},
                           child: const Text(
-                            'Sign In',
+                            'Sign Up',
                             style: TextStyle(color: Colors.blue, fontSize: 16),
                           ),
                         ),
@@ -76,78 +76,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: 20,
                           ),
                           const Icon(
-                            Icons.account_circle_rounded,
-                            size: 30,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          SizedBox(
-                            width: 270,
-                            child: TextFormField(
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                              decoration: const InputDecoration(
-                                hintText: 'Name',
-                                enabledBorder: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 67,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          const Icon(
-                            Icons.account_circle_rounded,
-                            size: 30,
-                          ),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          SizedBox(
-                            width: 270,
-                            child: TextFormField(
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                              decoration: const InputDecoration(
-                                hintText: 'Aadhar ID',
-                                enabledBorder: InputBorder.none,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 67,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          const Icon(
                             Icons.mail,
                             size: 30,
                           ),
@@ -161,7 +89,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: Colors.black,
                               ),
                               decoration: const InputDecoration(
-                                hintText: 'Email Address',
+                                hintText: 'Email',
                                 enabledBorder: InputBorder.none,
                               ),
                             ),
@@ -169,7 +97,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
+
                     Container(
                       height: 67,
                       decoration: BoxDecoration(
@@ -203,6 +134,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
+
+                    Center(
+                      child: Row(
+                        children: [
+                          const Spacer(),
+                          const Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: Color(0xff939393)),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Tap Here',
+                              style:
+                              TextStyle(color: Colors.blue, fontSize: 16),
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                    ),
                     SizedBox(
                       height: 50,
                       width: 190,
@@ -211,7 +166,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color(0xff6A4C93)),
                           shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                          MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
@@ -219,7 +174,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         onPressed: () {},
                         child: const Text(
-                          'Register',
+                          'Login',
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       ),

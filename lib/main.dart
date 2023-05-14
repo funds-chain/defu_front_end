@@ -1,5 +1,6 @@
 import 'package:defu_front_end/screens/dashboard.dart';
 import 'package:defu_front_end/screens/signUp.dart';
+import 'package:defu_front_end/screens/logIn.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,13 +14,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'De-Fu',
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-      ),
-      home: const DashboardScreen(),
+      initialRoute: 'logInScreen',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
+        'logInScreen' : (context) => const LogIn(),
         'dashboard' : (context) => const DashboardScreen(),
       },
     );
