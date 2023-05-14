@@ -125,6 +125,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: Colors.black,
                               ),
                               decoration: const InputDecoration(
+                                hintText: 'Aadhar Number',
+                                enabledBorder: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Container(
+                      height: 67,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          const Icon(
+                            Icons.lock,
+                            size: 30,
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          SizedBox(
+                            width: 270,
+                            child: TextFormField(
+                              style: const TextStyle(
+                                color: Colors.black,
+                              ),
+                              decoration: const InputDecoration(
                                 hintText: 'Password',
                                 enabledBorder: InputBorder.none,
                               ),
@@ -133,6 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
+
                     Center(
                       child: Row(
                         children: [
