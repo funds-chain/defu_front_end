@@ -1,5 +1,5 @@
-import 'package:defu_front_end/screens/appliedScheme.dart';
-import 'package:defu_front_end/screens/ApplyScheme.dart';
+import 'package:defu_front_end/screens/userScreens/appliedScheme.dart';
+import 'package:defu_front_end/screens/userScreens/ApplyScheme.dart';
 import 'package:flutter/material.dart';
 import 'package:defu_front_end/Models/Schemes.dart';
 import 'package:defu_front_end/Models/NewSchemes.dart';

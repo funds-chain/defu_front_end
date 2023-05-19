@@ -1,9 +1,11 @@
-import 'package:defu_front_end/screens/dashboard.dart';
-import 'package:defu_front_end/screens/signUp.dart';
-import 'package:defu_front_end/screens/logIn.dart';
-import 'package:defu_front_end/screens/SetPin.dart';
-import 'package:defu_front_end/screens/ConfirmPIN.dart';
-import 'package:defu_front_end/screens/wrongPIN.dart';
+import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
+import 'package:defu_front_end/screens/userScreens/dashboard.dart';
+import 'package:defu_front_end/screens/userScreens/signUp.dart';
+import 'package:defu_front_end/screens/userScreens/logIn.dart';
+import 'package:defu_front_end/screens/userScreens/SetPin.dart';
+import 'package:defu_front_end/screens/userScreens/ConfirmPIN.dart';
+import 'package:defu_front_end/screens/userScreens/wrongPIN.dart';
+import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,11 +15,10 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'dashboard',
+      initialRoute: 'departmentLogin',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen' : (context) => const LogIn(),
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         'setPIN' : (context) => const SetPIN(),
         'confirmPIN' : (context) => const ConfirmPIN(),
         'wrongPIN' : (context) => const WrongPIN(),
+        'departmentLogin' : (context) => const DepartmentLogin()
       },
     );
   }
