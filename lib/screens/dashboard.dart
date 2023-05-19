@@ -1,6 +1,8 @@
 import 'package:defu_front_end/screens/appliedScheme.dart';
+import 'package:defu_front_end/screens/ApplyScheme.dart';
 import 'package:flutter/material.dart';
 import 'package:defu_front_end/Models/Schemes.dart';
+import 'package:defu_front_end/Models/NewSchemes.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -10,16 +12,22 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final List<String> entries = <String>['A', 'B', 'C'];
-  final List<int> colorCodes = <int>[600, 500, 100];
+
   final List<Schemes> previouslyAppliedSchemes = [
     new Schemes(1, 'Scheme1', 'Department1'),
     new Schemes(2, 'Scheme2', 'Department2'),
     new Schemes(3, 'Scheme3', 'Department3')
   ];
 
+  final List<NewSchemes> newSchemes = [
+    new NewSchemes(0, 'New Scheme1', 'Department1','Students Only',DateTime(2023, 10, 22)),
+    new NewSchemes(0, 'New Scheme2', 'Department2','Students Only',DateTime(2023, 10, 22)),
+    new NewSchemes(0, 'New Scheme3', 'Department3','Students Only,',DateTime(2023, 10, 22)),
+  ];
+
   String schemeStatus(int id){
     switch(id){
+      case 0: return 'Apply';
       case 1: return 'Submitted';
       case 2: return 'Accepted';
       default: return 'Rejected';
@@ -28,6 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Color schemeStatusColor(int id){
     switch(id){
+      case 0: return Colors.white;
       case 1: return Colors.yellow;
       case 2: return Colors.green;
       default: return Colors.red;
@@ -279,154 +288,162 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         height: 235,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: entries.length,
+                          itemCount: newSchemes.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
-                              child: Container(
-                                height: 100,
-                                width: 200,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xff1D4B8C),
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                                child: Column(
-                                  children: [
-                                    const SizedBox(
-                                      height: 5,
+                            NewSchemes scheme = newSchemes[index];
+                            return GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                child: Container(
+                                  height: 100 ,
+                                  width: 200,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xff1D4B8C),
+                                      borderRadius: BorderRadius.circular(30),
                                     ),
-                                    Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 15,
-                                        ),
-                                        const Text(
-                                          'Students Only',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const Spacer(),
-                                        IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.arrow_forward_ios,
-                                            size: 15,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(height: 5,),
+                                      Row(
                                         children: [
                                           const SizedBox(
-                                            height: 5,
+                                            width: 15,
                                           ),
-                                          Row(
-                                            children: [
-                                              Image.asset(
-                                                'assets/images/schema.png',
-                                                height: 60,
-                                                width: 60,
-                                              ),
-                                              const Spacer(),
-                                              Container(
-                                                padding: const EdgeInsets.all(10),
-                                                decoration: BoxDecoration(
-                                                  color: const Color(0xffF2F2F7),
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
+                                           Text(
+                                            '${scheme.forWhom}',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 15,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(30),
+                                          ),
+                                          child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 5,
                                                 ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: const [
-                                                    Text(
-                                                      'Apply By',
-                                                      style: TextStyle(
-                                                        color: Color(0xff8E8E8E),
-                                                        fontSize: 14,
+                                                Row(
+                                                  children: [
+                                                    Image.asset(
+                                                      'assets/images/schema.png',
+                                                      height: 60,
+                                                      width: 60,
+                                                    ),
+                                                    const Spacer(),
+                                                    Container(
+                                                      padding: const EdgeInsets.all(10),
+                                                      decoration: BoxDecoration(
+                                                        color: const Color(0xffF2F2F7),
+                                                        borderRadius:
+                                                        BorderRadius.circular(20),
+                                                      ),
+                                                      child: Column(
+                                                        crossAxisAlignment:
+                                                        CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            'Apply By',
+                                                            style: TextStyle(
+                                                              color: Color(0xff8E8E8E),
+                                                              fontSize: 14,
+                                                            ),
+                                                          ),
+                                                          SizedBox(
+                                                            height: 5,
+                                                          ),
+                                                          Text(
+                                                            '${scheme.applyBy.toString().substring(0,10)}',
+                                                            style: TextStyle(
+                                                              color: Colors.black,
+                                                              fontSize: 15,
+                                                              fontWeight:
+                                                              FontWeight.bold,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
                                                     ),
+                                                    const SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
                                                     SizedBox(
-                                                      height: 5,
+                                                      width: 10,
                                                     ),
                                                     Text(
-                                                      '22 Oct 2023',
+                                                      '${scheme.name}',
                                                       style: TextStyle(
                                                         color: Colors.black,
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                        fontWeight: FontWeight.bold,
                                                       ),
                                                     ),
                                                   ],
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: const [
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              Text(
-                                                'Post-Matric Scholarship',
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+
+
+                                                const SizedBox(
+                                                  height: 10,
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: const [
-                                              SizedBox(
-                                                width: 10,
-                                              ),
-                                              SizedBox(
-                                                width: 190,
-                                                child: Text(
-                                                  'Text about post matriculation shcolarship',
-                                                  style: TextStyle(
-                                                    color: Color(0xff131313),
-                                                    fontSize: 14,
-                                                  ),
+                                                Row(
+                                                  children:  [
+                                                    SizedBox(
+                                                      width: 10,
+                                                    ),
+                                                    SizedBox(
+                                                      width: 190,
+                                                      child: Text(
+                                                        '${scheme.department}',
+                                                        style: TextStyle(
+                                                          color: Color(0xff131313),
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                        ],
+                                                const SizedBox(
+                                                  height: 20,
+                                                ),
+                                              ]
+                                          )
                                       ),
-                                    ),
-                                  ],
+
+                                    ],
+                                  ),
+
                                 ),
                               ),
+                              onTap: (){
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context)=> ApplyScheme(scheme: scheme)
+                                    ));
+                              },
                             );
                           },
                         ),
-                      ),
+                        ),
+
                       const Text(
                         'Previously applied Schemes',
                         style: TextStyle(
