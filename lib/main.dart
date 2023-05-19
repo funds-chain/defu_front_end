@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'setPIN',
+      initialRoute: 'dashboard',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen' : (context) => const LogIn(),

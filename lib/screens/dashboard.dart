@@ -1,4 +1,6 @@
+import 'package:defu_front_end/screens/appliedScheme.dart';
 import 'package:flutter/material.dart';
+import 'package:defu_front_end/Models/Schemes.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -10,6 +12,27 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
+  final List<Schemes> previouslyAppliedSchemes = [
+    new Schemes(1, 'Scheme1', 'Department1'),
+    new Schemes(2, 'Scheme2', 'Department2'),
+    new Schemes(3, 'Scheme3', 'Department3')
+  ];
+
+  String schemeStatus(int id){
+    switch(id){
+      case 1: return 'Submitted';
+      case 2: return 'Accepted';
+      default: return 'Rejected';
+    }
+  }
+
+  Color schemeStatusColor(int id){
+    switch(id){
+      case 1: return Colors.yellow;
+      case 2: return Colors.green;
+      default: return Colors.red;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +101,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: const [
                                       Text(
-                                        'Adithya P K',
+                                        'John Doe',
                                         style: TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        '#123Adiu',
+                                        '#DoeJohn',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
@@ -243,7 +266,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Schemes for you',
+                        'Explore Schemes',
                         style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -382,7 +405,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                               SizedBox(
                                                 width: 190,
                                                 child: Text(
-                                                  'gfvnoervuibn Lorem ipsum biouef iosdfnde gfvnoervuibn Lorem ipsum biouef iosdfnde',
+                                                  'Text about post matriculation shcolarship',
                                                   style: TextStyle(
                                                     color: Color(0xff131313),
                                                     fontSize: 14,
@@ -400,6 +423,159 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ],
                                 ),
                               ),
+                            );
+                          },
+                        ),
+                      ),
+                      const Text(
+                        'Previously applied Schemes',
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        height: 225,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: previouslyAppliedSchemes.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            Schemes scheme = previouslyAppliedSchemes[index];
+                            return GestureDetector(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                child: Container(
+                                  height: 100,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff1D4B8C),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 15,
+                                          ),
+                                           Text(
+                                            '${schemeStatus(scheme.status)}',
+                                            style: TextStyle(
+                                                color: schemeStatusColor(scheme.status),
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          const Spacer(),
+                                          IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                              Icons.arrow_forward_ios,
+                                              size: 15,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(30),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: [
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Image.asset(
+                                                  'assets/images/schema.png',
+                                                  height: 60,
+                                                  width: 60,
+                                                ),
+                                                const Spacer(),
+                                                Container(
+                                                  padding: const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xffF2F2F7),
+                                                    borderRadius:
+                                                    BorderRadius.circular(20),
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                    children:  [
+                                                      Text('${scheme.name}')
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  width: 10,
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children:  [
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                Text(
+                                                  '${scheme.name}',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                SizedBox(
+                                                  width: 190,
+                                                  child: Text(
+                                                    '${scheme.department}',
+                                                    style: TextStyle(
+                                                      color: Color(0xff131313),
+                                                      fontSize: 14,
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              onTap: (){
+                                Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=> AppliedScheme(scheme: scheme)
+                                ));
+                              },
                             );
                           },
                         ),
