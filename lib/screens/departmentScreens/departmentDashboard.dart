@@ -1,3 +1,4 @@
+import 'package:defu_front_end/screens/departmentScreens/department_users_applied.dart';
 import 'package:flutter/material.dart';
 import 'package:defu_front_end/Models/department_schemes_open.dart';
 
@@ -98,8 +99,9 @@ class _DepartmentDashboardState extends State<DepartmentDashboard> {
                           primary: Colors.white,
                         ),
                         onPressed: () {
-                          // Handle button press
-                          print('Button pressed');
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context)=> AppliedUsers(scheme: scheme)
+                              ));
                         },
                         child: Icon(
                           Icons.arrow_forward,
