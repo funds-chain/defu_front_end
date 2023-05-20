@@ -1,8 +1,10 @@
+
+
 import 'package:flutter/material.dart';
 
 class ApplyForScheme extends StatefulWidget {
-  const ApplyForScheme({Key? key}) : super(key: key);
-
+  const ApplyForScheme({Key? key, required this.disabled}) : super(key: key);
+  final bool disabled;
   @override
   State<ApplyForScheme> createState() => _ApplyForSchemeState();
 }
@@ -114,17 +116,34 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: items.map((item) =>
           new Column(children: [
-            TextFormField(
-              style: TextStyle(
-                color: Colors.black,
+            if(widget.disabled)...[
+              TextFormField(
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: InputDecoration(
+                  hintText: item['label'],
+                ),
+                onChanged: (text) {
+                  enterToFinalFormData(item['label'], text);
+                },
+                enabled: false,
+                initialValue: item['type'],
               ),
-              decoration: InputDecoration(
-                hintText: item['label'],
+            ],
+            if(! widget.disabled)...[
+              TextFormField(
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+                decoration: InputDecoration(
+                  hintText: item['label'],
+                ),
+                onChanged: (text) {
+                  enterToFinalFormData(item['label'], text);
+                },
               ),
-              onChanged: (text) {
-                enterToFinalFormData(item['label'], text);
-              },
-            ),
+            ],
             SizedBox(height: 10,),
           ],)
         ).toList()

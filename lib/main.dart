@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         'wrongPIN': (context) => const WrongPIN(),
         'departmentLogin': (context) => const DepartmentLogin(),
         'departmentDashboard': (context) => const DepartmentDashboard(),
-        'applyForScheme': (context) => const ApplyForScheme(),
+        'applyForScheme': (context) => const ApplyForScheme(disabled: true),
       },
     );
   }
