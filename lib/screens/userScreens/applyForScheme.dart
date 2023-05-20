@@ -18,6 +18,8 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
   }
   String stepKey = 'step1';
 
+  Map formDataFinal = {};
+
   @override
   Widget build(BuildContext context) {
 
@@ -29,15 +31,15 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
         'header': 'Fill the following Details',
         'form': [
           {
-            'label': 'Temp name',
+            'label': 'Temp name1',
             'type': 'text'
           },
           {
-            'label': 'Temp name',
+            'label': 'Temp name2',
             'type': 'text'
           },
           {
-            'label': 'Temp name',
+            'label': 'Temp name3',
             'type': 'text'
           },
         ]
@@ -46,34 +48,43 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
       'header': 'Fill the following Details',
       'form': [
         {
-          'label': 'Temp name',
+          'label': 'Temp name4',
           'type': 'text'
         },
         {
-          'label': 'Temp name',
+          'label': 'Temp name5',
           'type': 'text'
         },
         {
-          'label': 'Temp name',
+          'label': 'Temp name6',
           'type': 'text'
         },
         {
-          'label': 'Temp name',
+          'label': 'Temp name7',
           'type': 'text'
         },
         {
-          'label': 'Temp2 name',
+          'label': 'Temp2 name8',
           'type': 'text'
         },
         {
-          'label': 'Temp3 name',
+          'label': 'Temp3 name9',
           'type': 'text'
         },
       ]
-    }
+    },
+      'Ack': {
+        'header': 'I Acknowledge the terms and Conditions',
+        'body': "There were 16 NAM countries participating and 17 foreign participants in the programme. There were 9 Indian participants from various states of India. The training programme focused on rainwater harvesting, ground water recharge from buildings, apartments, office complexes, corporate sectors, companies and various institutions. Open spaces both in urban and rural areas along with watershed management in farm sector was also covered. The training programme was supported by 22 resource persons from various institutions and different parts of India with 24 technical presentations. There were five Technical sessions covering the following topics: 1. Need for Rainwater Harvesting 2. Resource estimation 3. Methods of rainwater harvesting a) Harvesting, recharge, conservation b) Rainwater harvesting from roof tops and open spaces 4. Resource - water quality and effects (health, land, water source etc.) 5. Details of Rainwater harvesting roof tops and open spaces – design, plan, cost estimation etc. 6. Rainwater harvesting in small farms / agricultural fields 7. Conservation and artificial recharge, design, plan, cost estimation etc. 8. Ground water recharge - open space, dug wells, tube wells, trenches, farm ponds etc. There were two field visits for practical exposure on Rainwater Harvesting and Ground water recharge. The first one was in Bangalore to practically demonstrate rainwater harvesting at different sectors."
+      }
     };
     List formKeys = createMapList(formdata);
-    
+
+    void enterToFinalFormData(String key, String value){
+      formDataFinal[key] = value;
+      print(formDataFinal);
+    }
+
     Color getStepColor(item){
       if(item == stepKey){
         return Color.fromRGBO(61, 137, 245, 1);
@@ -86,7 +97,7 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
           new TextButton(onPressed: (){
             setState(() {
               stepKey = item;
-              print(stepKey);
+              formDataFinal=formDataFinal;
             });
           }, child: Text(item,
               style: TextStyle(
@@ -110,6 +121,9 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
               decoration: InputDecoration(
                 hintText: item['label'],
               ),
+              onChanged: (text) {
+                enterToFinalFormData(item['label'], text);
+              },
             ),
             SizedBox(height: 10,),
           ],)
@@ -201,7 +215,46 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
                 padding: EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    if(formdata.containsKey(stepKey))...[
+                    if(formdata.containsKey(stepKey) && stepKey == "Ack")...[
+                        Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(formdata['Ack']['header'],
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500
+                              )),
+                          SizedBox(height: 20,),
+                          Text(formdata['Ack']['body'],
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400
+                              )),
+                          SizedBox(height: 20,),
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 15, 0, 15),
+                              child: Text(
+                                'Confirm Submission',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                                primary: Color.fromRGBO(114, 175, 16, 1),
+                                minimumSize: const Size.fromHeight(50),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                )),
+                          ),
+                        ],
+                      )
+                    ],
+                    if(formdata.containsKey(stepKey) && stepKey != "Ack")...[
                       GetOuterFormWidget(formdata[stepKey]),
                     ]
                   ],
