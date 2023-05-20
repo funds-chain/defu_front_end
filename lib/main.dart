@@ -8,6 +8,7 @@ import 'package:defu_front_end/screens/userScreens/logIn.dart';
 import 'package:defu_front_end/screens/userScreens/signUp.dart';
 import 'package:defu_front_end/screens/userScreens/wrongPIN.dart';
 import 'package:defu_front_end/screens/departmentScreens/viewUsers.dart';
+import 'package:defu_front_end/screens/departmentScreens/createUser.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'viewUsers',
+      initialRoute: 'createUser',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen': (context) => const LogIn(),
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         'departmentDashboard': (context) => const DepartmentDashboard(),
         'applyForScheme': (context) => const ApplyForScheme(),
         'viewUsers': (context) => const ViewUsers(),
+        'createUser': (context) => const CreateUser(),
       },
     );
   }

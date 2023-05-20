@@ -16,6 +16,7 @@ class _ViewUsersState extends State<ViewUsers> {
     new UsersAppliedSchemes(name: 'Name 2', id: 'Id 2', age: 30),
     new UsersAppliedSchemes(name: 'Name 3', id: 'Id 3', age: 30),
     new UsersAppliedSchemes(name: 'Name 4', id: 'Id 4', age: 30),
+    new UsersAppliedSchemes(name: 'Name 5', id: 'Id 5', age: 30),
   ];
 
   Widget SchemeBuilder(){
@@ -232,7 +233,7 @@ class _ViewUsersState extends State<ViewUsers> {
             ),
             SizedBox(height: 20,),
             Container(
-                height: 500,
+                height: 600,
                 child: SchemeBuilder()),
           ],
         ),
