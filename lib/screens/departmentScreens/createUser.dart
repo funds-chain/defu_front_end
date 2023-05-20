@@ -24,7 +24,7 @@ class _CreateUserState extends State<CreateUser> {
               color: Color(0xff9747FF),
             ),
           ),
-          title: const Text('Create a new User',
+          title: const Text('Create a new Member',
             style: TextStyle(
               fontSize: 24,
             ),),

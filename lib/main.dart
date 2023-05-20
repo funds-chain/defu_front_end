@@ -1,5 +1,6 @@
 import 'package:defu_front_end/screens/departmentScreens/departmentDashboard.dart';
 import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
+import 'package:defu_front_end/screens/departmentScreens/editUser.dart';
 import 'package:defu_front_end/screens/userScreens/ConfirmPIN.dart';
 import 'package:defu_front_end/screens/userScreens/SetPin.dart';
 import 'package:defu_front_end/screens/userScreens/applyForScheme.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'createUser',
+      initialRoute: 'editUser',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen': (context) => const LogIn(),
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         'applyForScheme': (context) => const ApplyForScheme(),
         'viewUsers': (context) => const ViewUsers(),
         'createUser': (context) => const CreateUser(),
+        'editUser': (context) => const EditUser()
       },
     );
   }
