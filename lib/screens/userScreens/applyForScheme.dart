@@ -1,6 +1,7 @@
-
-
+import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ApplyForScheme extends StatefulWidget {
   const ApplyForScheme({Key? key, required this.disabled}) : super(key: key);
@@ -41,8 +42,8 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
             'type': 'text'
           },
           {
-            'label': 'Temp name3',
-            'type': 'text'
+            'label': 'Upload Aadhar ',
+            'type': 'file'
           },
         ]
       },
@@ -115,36 +116,85 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
       return new Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: items.map((item) =>
-          new Column(children: [
-            if(widget.disabled)...[
-              TextFormField(
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-                decoration: InputDecoration(
-                  hintText: item['label'],
-                ),
-                onChanged: (text) {
-                  enterToFinalFormData(item['label'], text);
+          new Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+            if(item['type'] == "file")...[
+              Text(item['label'],
+                  style: TextStyle(
+                      color: Color.fromRGBO(108, 108, 108, 1),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500
+                  )),
+              SizedBox(height: 10,),
+              InkWell(
+                onTap: () async {
+                  final XFile? pickedFile =
+                  await ImagePicker().pickImage(
+                    source: ImageSource.gallery,
+                    maxWidth: 1800,
+                    maxHeight: 1800,
+                  );
+                  if (pickedFile != null) {
+                    File imageFile = File(pickedFile.path);
+                  }
                 },
-                enabled: false,
-                initialValue: item['type'],
-              ),
-            ],
-            if(! widget.disabled)...[
-              TextFormField(
-                style: TextStyle(
-                  color: Colors.black,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Replace with your desired color
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          'assets/images/upload.png',
+                        ),
+                        SizedBox(width: 20,),
+                        Text('Upload file (size less than 4mb)',
+                            style: TextStyle(
+                              color: Color.fromRGBO(108, 108, 108, 1),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500
+                            )),
+                      ],
+                    ),
+                  ),
                 ),
-                decoration: InputDecoration(
-                  hintText: item['label'],
-                ),
-                onChanged: (text) {
-                  enterToFinalFormData(item['label'], text);
-                },
-              ),
+              )
             ],
-            SizedBox(height: 10,),
+            if(item['type'] == "text")...[
+              if(widget.disabled)...[
+                TextFormField(
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: item['label'],
+                  ),
+                  onChanged: (text) {
+                    enterToFinalFormData(item['label'], text);
+                  },
+                  enabled: false,
+                  initialValue: item['type'],
+                ),
+              ],
+              if(! widget.disabled)...[
+                TextFormField(
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: item['label'],
+                  ),
+                  onChanged: (text) {
+                    enterToFinalFormData(item['label'], text);
+                  },
+                ),
+              ],
+              SizedBox(height: 10,),
+            ]
           ],)
         ).toList()
       );
