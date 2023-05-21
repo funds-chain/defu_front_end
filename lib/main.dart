@@ -1,5 +1,6 @@
 import 'package:defu_front_end/screens/departmentScreens/departmentDashboard.dart';
 import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
+import 'package:defu_front_end/screens/departmentScreens/editUser.dart';
 import 'package:defu_front_end/screens/userScreens/ConfirmPIN.dart';
 import 'package:defu_front_end/screens/userScreens/SetPin.dart';
 import 'package:defu_front_end/screens/userScreens/applyForScheme.dart';
@@ -7,7 +8,8 @@ import 'package:defu_front_end/screens/userScreens/dashboard.dart';
 import 'package:defu_front_end/screens/userScreens/logIn.dart';
 import 'package:defu_front_end/screens/userScreens/signUp.dart';
 import 'package:defu_front_end/screens/userScreens/wrongPIN.dart';
-import 'package:defu_front_end/screens/departmentScreens/department_users_applied.dart';
+import 'package:defu_front_end/screens/departmentScreens/viewUsers.dart';
+import 'package:defu_front_end/screens/departmentScreens/createUser.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'departmentDashboard',
+      initialRoute: 'editUser',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen': (context) => const LogIn(),
@@ -30,7 +32,10 @@ class MyApp extends StatelessWidget {
         'wrongPIN': (context) => const WrongPIN(),
         'departmentLogin': (context) => const DepartmentLogin(),
         'departmentDashboard': (context) => const DepartmentDashboard(),
-        'applyForScheme': (context) => const ApplyForScheme(disabled: true),
+        'applyForScheme': (context) => const ApplyForScheme(),
+        'viewUsers': (context) => const ViewUsers(),
+        'createUser': (context) => const CreateUser(),
+        'editUser': (context) => const EditUser()
       },
     );
   }
