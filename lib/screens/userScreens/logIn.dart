@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:defu_front_end/screens/userScreens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class LogIn extends StatefulWidget {
   const LogIn({Key? key}) : super(key: key);
@@ -8,6 +12,27 @@ class LogIn extends StatefulWidget {
 }
 
 class _LogInState extends State<LogIn> {
+  Future<http.Response> login(String mail, String password) async {
+    return http.post(
+      Uri.parse('http://localhost:3000/auth/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(<String, String>{'mail': mail, 'password': password}),
+    );
+  }
+
+  Map userData = {};
+
+  void enterData(String key, dynamic value) {
+    setState(() {
+      Map temp = userData;
+      temp[key] = value;
+      userData = temp;
+      print(userData);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +110,9 @@ class _LogInState extends State<LogIn> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('mail', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -100,7 +128,6 @@ class _LogInState extends State<LogIn> {
                     const SizedBox(
                       height: 10,
                     ),
-
                     Container(
                       height: 67,
                       decoration: BoxDecoration(
@@ -122,6 +149,9 @@ class _LogInState extends State<LogIn> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('password', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -134,7 +164,6 @@ class _LogInState extends State<LogIn> {
                         ],
                       ),
                     ),
-
                     Center(
                       child: Row(
                         children: [
@@ -151,7 +180,7 @@ class _LogInState extends State<LogIn> {
                             child: const Text(
                               'Tap Here',
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 16),
+                                  TextStyle(color: Colors.blue, fontSize: 16),
                             ),
                           ),
                           const Spacer(),
@@ -166,13 +195,25 @@ class _LogInState extends State<LogIn> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color(0xff6A4C93)),
                           shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          http.Response response = await login(
+                              userData['mail'], userData['password']);
+                          Map res = json.decode(response.body);
+                          print(res);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DashboardScreen(
+                                      usermail: userData['mail'],
+                                    )),
+                          );
+                        },
                         child: const Text(
                           'Login',
                           style: TextStyle(color: Colors.white, fontSize: 16),
@@ -195,7 +236,7 @@ class _LogInState extends State<LogIn> {
                             child: const Text(
                               'Department Login',
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 16),
+                                  TextStyle(color: Colors.blue, fontSize: 16),
                             ),
                           ),
                           const Spacer(),
