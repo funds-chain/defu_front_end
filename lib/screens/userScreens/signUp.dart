@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:defu_front_end/screens/userScreens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -8,6 +12,33 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  Future<http.Response> register(String mail, String username,
+      String aadharNumber, String password) async {
+    return http.post(
+      Uri.parse('http://localhost:3000/auth/register'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(<String, String>{
+        'mail': mail,
+        'username': username,
+        'aadharNumber': aadharNumber,
+        'password': password
+      }),
+    );
+  }
+
+  Map userData = {};
+
+  void enterData(String key, dynamic value) {
+    setState(() {
+      Map temp = userData;
+      temp[key] = value;
+      userData = temp;
+      print(userData);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,6 +116,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('username', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -121,6 +155,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('aadharNumber', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -157,6 +194,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('mail', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -169,7 +209,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       height: 67,
                       decoration: BoxDecoration(
@@ -191,6 +233,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('password', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -217,7 +262,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          http.Response response = await register(
+                              userData['mail'],
+                              userData['username'],
+                              userData['aadharNumber'],
+                              userData['password']);
+                          Map res = json.decode(response.body);
+                          print(res);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DashboardScreen(
+                                      usermail: userData['mail'],
+                                    )),
+                          );
+                        },
                         child: const Text(
                           'Register',
                           style: TextStyle(color: Colors.white, fontSize: 16),
@@ -240,7 +300,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             child: const Text(
                               'Department Login',
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 16),
+                                  TextStyle(color: Colors.blue, fontSize: 16),
                             ),
                           ),
                           const Spacer(),

@@ -1,18 +1,22 @@
-import 'package:defu_front_end/screens/userScreens/appliedScheme.dart';
-import 'package:defu_front_end/screens/userScreens/ApplyScheme.dart';
-import 'package:flutter/material.dart';
-import 'package:defu_front_end/Models/Schemes.dart';
+import 'dart:convert';
+
 import 'package:defu_front_end/Models/NewSchemes.dart';
+import 'package:defu_front_end/Models/Schemes.dart';
+import 'package:defu_front_end/screens/userScreens/appliedScheme.dart';
+import 'package:defu_front_end/screens/userScreens/applyForScheme.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  const DashboardScreen({Key? key, required this.usermail}) : super(key: key);
+
+  final String usermail;
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-
   final List<Schemes> previouslyAppliedSchemes = [
     new Schemes(1, 'Scheme1', 'Department1'),
     new Schemes(2, 'Scheme2', 'Department2'),
@@ -20,31 +24,74 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
   final List<NewSchemes> newSchemes = [
-    new NewSchemes(0, 'New Scheme1', 'Department1','Students Only',DateTime(2023, 10, 22)),
-    new NewSchemes(0, 'New Scheme2', 'Department2','Students Only',DateTime(2023, 10, 22)),
-    new NewSchemes(0, 'New Scheme3', 'Department3','Students Only,',DateTime(2023, 10, 22)),
+    new NewSchemes(0, 'New Scheme1', 'Department1', 'Students Only',
+        DateTime(2023, 10, 22)),
+    new NewSchemes(0, 'New Scheme2', 'Department2', 'Students Only',
+        DateTime(2023, 10, 22)),
+    new NewSchemes(0, 'New Scheme3', 'Department3', 'Students Only,',
+        DateTime(2023, 10, 22)),
   ];
 
-  String schemeStatus(int id){
-    switch(id){
-      case 0: return 'Apply';
-      case 1: return 'Submitted';
-      case 2: return 'Accepted';
-      default: return 'Rejected';
+  String schemeStatus(int id) {
+    switch (id) {
+      case 0:
+        return 'Apply';
+      case 1:
+        return 'Submitted';
+      case 2:
+        return 'Accepted';
+      default:
+        return 'Rejected';
     }
   }
 
-  Color schemeStatusColor(int id){
-    switch(id){
-      case 0: return Colors.white;
-      case 1: return Colors.yellow;
-      case 2: return Colors.green;
-      default: return Colors.red;
+  Color schemeStatusColor(int id) {
+    switch (id) {
+      case 0:
+        return Colors.white;
+      case 1:
+        return Colors.yellow;
+      case 2:
+        return Colors.green;
+      default:
+        return Colors.red;
     }
+  }
+
+  Map user = {
+    'mail': "NA",
+    "username": "NA",
+    "_id": "XXXXXXXXXX",
+    "walletBalance": "XXXXXXXXXX"
+  };
+  List exploreSchemes = [];
+
+  Future<http.Response> getUserDetails(String mail) async {
+    return http.get(Uri.parse('http://localhost:3000/user/single/${mail}'));
+  }
+
+  Future<http.Response> getSchemeDetails() async {
+    return http.get(Uri.parse('http://localhost:3000/schemes'));
+  }
+
+  void getData(String mail) async {
+    http.Response response = await getUserDetails(mail);
+    Map res = json.decode(response.body);
+
+    http.Response responseSchemes = await getSchemeDetails();
+    Map resSchemes = json.decode(responseSchemes.body);
+    setState(() {
+      user = res['data'][0];
+      exploreSchemes = resSchemes['data'];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (user['mail'] == "NA") {
+      getData(widget.usermail);
+    }
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -107,17 +154,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: const [
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
                                       Text(
-                                        'John Doe',
+                                        user['username'],
                                         style: TextStyle(
                                           fontSize: 24,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       Text(
-                                        '#DoeJohn',
+                                        user['_id'].substring(0, 8),
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14,
@@ -219,8 +267,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               style: TextStyle(
                                   fontSize: 16, color: Color(0xffCACACA)),
                             ),
-                            const Text(
-                              '\u{20B9}${45000.00}',
+                            Text(
+                              '\u{20B9}${user['walletBalance']}',
                               style: TextStyle(
                                 fontSize: 40,
                                 color: Colors.white,
@@ -288,29 +336,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         height: 235,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: newSchemes.length,
+                          itemCount: exploreSchemes.length,
                           itemBuilder: (BuildContext context, int index) {
-                            NewSchemes scheme = newSchemes[index];
+                            Map scheme = exploreSchemes[index];
                             return GestureDetector(
                               child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                padding:
+                                    const EdgeInsets.fromLTRB(0, 10, 10, 0),
                                 child: Container(
-                                  height: 100 ,
-                                  width: 200,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xff1D4B8C),
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
+                                  height: 100,
+                                  width: 350,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff1D4B8C),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                   child: Column(
                                     children: [
-                                      const SizedBox(height: 5,),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
                                       Row(
                                         children: [
                                           const SizedBox(
                                             width: 15,
                                           ),
-                                           Text(
-                                            '${scheme.forWhom}',
+                                          Text(
+                                            '${scheme["schemeCategory"]}',
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 15,
@@ -327,274 +378,304 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           ),
                                         ],
                                       ),
-                                      Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(30),
-                                          ),
-                                          child: Column(
-                                              crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(
-                                                  height: 5,
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    Image.asset(
-                                                      'assets/images/schema.png',
-                                                      height: 60,
-                                                      width: 60,
-                                                    ),
-                                                    const Spacer(),
-                                                    Container(
-                                                      padding: const EdgeInsets.all(10),
-                                                      decoration: BoxDecoration(
-                                                        color: const Color(0xffF2F2F7),
-                                                        borderRadius:
-                                                        BorderRadius.circular(20),
+                                      Padding(
+                                        padding: const EdgeInsets.all(15.0),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                            ),
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Image.asset(
+                                                        'assets/images/schema.png',
+                                                        height: 60,
+                                                        width: 60,
                                                       ),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            'Apply By',
-                                                            style: TextStyle(
-                                                              color: Color(0xff8E8E8E),
-                                                              fontSize: 14,
+                                                      const Spacer(),
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(10),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: const Color(
+                                                              0xffF2F2F7),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                        ),
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Text(
+                                                              'Apply By',
+                                                              style: TextStyle(
+                                                                color: Color(
+                                                                    0xff8E8E8E),
+                                                                fontSize: 14,
+                                                              ),
                                                             ),
-                                                          ),
-                                                          SizedBox(
-                                                            height: 5,
-                                                          ),
-                                                          Text(
-                                                            '${scheme.applyBy.toString().substring(0,10)}',
-                                                            style: TextStyle(
-                                                              color: Colors.black,
-                                                              fontSize: 15,
-                                                              fontWeight:
-                                                              FontWeight.bold,
+                                                            SizedBox(
+                                                              height: 5,
                                                             ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    const SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    Text(
-                                                      '${scheme.name}',
-                                                      style: TextStyle(
-                                                        color: Colors.black,
-                                                        fontSize: 16,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-
-
-                                                const SizedBox(
-                                                  height: 10,
-                                                ),
-                                                Row(
-                                                  children:  [
-                                                    SizedBox(
-                                                      width: 10,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 190,
-                                                      child: Text(
-                                                        '${scheme.department}',
-                                                        style: TextStyle(
-                                                          color: Color(0xff131313),
-                                                          fontSize: 16,
+                                                            Text(
+                                                              '${scheme['schemeEndDate'].substring(0, 10)}',
+                                                              style: TextStyle(
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 15,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                    )
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 20,
-                                                ),
-                                              ]
-                                          )
+                                                      const SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      Text(
+                                                        '${scheme['schemeName']}',
+                                                        style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 10,
+                                                      ),
+                                                      SizedBox(
+                                                        width: 190,
+                                                        child: Text(
+                                                          '${scheme['schemeCreatedBy']}',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff131313),
+                                                            fontSize: 16,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                ])),
                                       ),
-
                                     ],
                                   ),
-
                                 ),
                               ),
-                              onTap: (){
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=> ApplyScheme(scheme: scheme)
-                                    ));
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ApplyForScheme(
+                                          schemeId: scheme['_id'],
+                                          disabled: false,
+                                          userId: user['_id'])),
+                                );
                               },
                             );
                           },
                         ),
-                        ),
-
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       const Text(
                         'Previously applied Schemes',
                         style: TextStyle(
                             fontSize: 20,
-                            color: Colors.black,
+                            color: Colors.grey,
                             fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 225,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: previouslyAppliedSchemes.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            Schemes scheme = previouslyAppliedSchemes[index];
-                            return GestureDetector(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
-                                child: Container(
-                                  height: 100,
-                                  width: 200,
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xff1D4B8C),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          const SizedBox(
-                                            width: 15,
-                                          ),
-                                           Text(
-                                            '${schemeStatus(scheme.status)}',
-                                            style: TextStyle(
-                                                color: schemeStatusColor(scheme.status),
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const Spacer(),
-                                          IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              size: 15,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.circular(30),
+                      Visibility(
+                        visible: false,
+                        child: SizedBox(
+                          height: 225,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: previouslyAppliedSchemes.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              Schemes scheme = previouslyAppliedSchemes[index];
+                              return GestureDetector(
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 10, 10, 0),
+                                  child: Container(
+                                    height: 100,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xff1D4B8C),
+                                      borderRadius: BorderRadius.circular(30),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 5,
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                        Row(
                                           children: [
                                             const SizedBox(
-                                              height: 5,
+                                              width: 15,
                                             ),
-                                            Row(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/schema.png',
-                                                  height: 60,
-                                                  width: 60,
-                                                ),
-                                                const Spacer(),
-                                                Container(
-                                                  padding: const EdgeInsets.all(10),
-                                                  decoration: BoxDecoration(
-                                                    color: const Color(0xffF2F2F7),
-                                                    borderRadius:
-                                                    BorderRadius.circular(20),
-                                                  ),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                    children:  [
-                                                      Text('${scheme.name}')
-                                                    ],
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                              ],
+                                            Text(
+                                              '${schemeStatus(scheme.status)}',
+                                              style: TextStyle(
+                                                  color: schemeStatusColor(
+                                                      scheme.status),
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold),
                                             ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children:  [
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                Text(
-                                                  '${scheme.name}',
-                                                  style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              children: [
-                                                SizedBox(
-                                                  width: 10,
-                                                ),
-                                                SizedBox(
-                                                  width: 190,
-                                                  child: Text(
-                                                    '${scheme.department}',
-                                                    style: TextStyle(
-                                                      color: Color(0xff131313),
-                                                      fontSize: 14,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
+                                            const Spacer(),
+                                            IconButton(
+                                              onPressed: () {},
+                                              icon: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                size: 15,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                           ],
                                         ),
-                                      ),
-                                    ],
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              const SizedBox(
+                                                height: 5,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Image.asset(
+                                                    'assets/images/schema.png',
+                                                    height: 60,
+                                                    width: 60,
+                                                  ),
+                                                  const Spacer(),
+                                                  Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            10),
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(
+                                                          0xffF2F2F7),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                    ),
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text('${scheme.name}')
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    '${scheme.name}',
+                                                    style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 10,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  SizedBox(
+                                                    width: 190,
+                                                    child: Text(
+                                                      '${scheme.department}',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xff131313),
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                              const SizedBox(
+                                                height: 20,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-
-                              onTap: (){
-                                Navigator.push(context,
-                                MaterialPageRoute(builder: (context)=> AppliedScheme(scheme: scheme)
-                                ));
-                              },
-                            );
-                          },
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AppliedScheme(scheme: scheme)));
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ],
