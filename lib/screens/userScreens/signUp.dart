@@ -1,8 +1,11 @@
 import 'dart:convert';
 
+import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
 import 'package:defu_front_end/screens/userScreens/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+
+import 'logIn.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -78,7 +81,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: Color(0xff939393)),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LogIn(),
+                              ),
+                            );
+                          },
                           child: const Text(
                             'Sign In',
                             style: TextStyle(color: Colors.blue, fontSize: 16),
@@ -271,12 +281,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Map res = json.decode(response.body);
                           print(res);
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DashboardScreen(
-                                      usermail: userData['mail'],
-                                    )),
-                          );
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DashboardScreen(
+                                        usermail: userData['mail'],
+                                      )));
                         },
                         child: const Text(
                           'Register',
@@ -296,7 +305,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: Color(0xff939393)),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DepartmentLogin(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               'Department Login',
                               style:

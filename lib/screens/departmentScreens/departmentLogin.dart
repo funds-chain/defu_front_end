@@ -1,3 +1,4 @@
+import 'package:defu_front_end/screens/userScreens/logIn.dart';
 import 'package:flutter/material.dart';
 
 class DepartmentLogin extends StatefulWidget {
@@ -129,7 +130,6 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                     const SizedBox(
                       height: 10,
                     ),
-
                     Container(
                       height: 67,
                       decoration: BoxDecoration(
@@ -163,7 +163,6 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                         ],
                       ),
                     ),
-
                     Center(
                       child: Row(
                         children: [
@@ -180,7 +179,7 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                             child: const Text(
                               'Tap Here',
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 16),
+                                  TextStyle(color: Colors.blue, fontSize: 16),
                             ),
                           ),
                           const Spacer(),
@@ -195,7 +194,7 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color(0xff6A4C93)),
                           shape:
-                          MaterialStateProperty.all<RoundedRectangleBorder>(
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
@@ -220,11 +219,18 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                                 color: Color(0xff939393)),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LogIn(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               'User Login',
                               style:
-                              TextStyle(color: Colors.blue, fontSize: 16),
+                                  TextStyle(color: Colors.blue, fontSize: 16),
                             ),
                           ),
                           const Spacer(),

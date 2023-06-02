@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
 import 'package:defu_front_end/screens/userScreens/dashboard.dart';
+import 'package:defu_front_end/screens/userScreens/signUp.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -72,7 +74,14 @@ class _LogInState extends State<LogIn> {
                               color: Color(0xff939393)),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignUpScreen(),
+                              ),
+                            );
+                          },
                           child: const Text(
                             'Sign Up',
                             style: TextStyle(color: Colors.blue, fontSize: 16),
@@ -232,7 +241,14 @@ class _LogInState extends State<LogIn> {
                                 color: Color(0xff939393)),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DepartmentLogin(),
+                                ),
+                              );
+                            },
                             child: const Text(
                               'Department Login',
                               style:
