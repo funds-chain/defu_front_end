@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:defu_front_end/screens/departmentScreens/departmentDashboard.dart';
 import 'package:defu_front_end/screens/userScreens/logIn.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class DepartmentLogin extends StatefulWidget {
   const DepartmentLogin({Key? key}) : super(key: key);
@@ -9,8 +13,47 @@ class DepartmentLogin extends StatefulWidget {
 }
 
 class _DepartmentLoginState extends State<DepartmentLogin> {
+  Future<http.Response> getDepartments() async {
+    return http
+        .get(Uri.parse('http://localhost:3000/department/getDepartments'));
+  }
+
+  void getData() async {
+    http.Response response = await getDepartments();
+    Map res = json.decode(response.body);
+    setState(() {
+      departments = res['data'];
+    });
+  }
+
+  Future<http.Response> login(String mail, String password) async {
+    return http.post(
+      Uri.parse('http://localhost:3000/auth/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: json.encode(<String, String>{'mail': mail, 'password': password}),
+    );
+  }
+
+  List departments = [];
+  String dept = "";
+
+  Map userData = {};
+
+  void enterData(String key, dynamic value) {
+    setState(() {
+      Map temp = userData;
+      temp[key] = value;
+      userData = temp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (departments.length == 0) {
+      getData();
+    }
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -76,18 +119,35 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                           const SizedBox(
                             width: 20,
                           ),
-                          SizedBox(
-                            width: 270,
-                            child: TextFormField(
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                              decoration: const InputDecoration(
-                                hintText: 'Select Department',
-                                enabledBorder: InputBorder.none,
-                              ),
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+
+                            // dropdown below..
+                            child: DropdownButton(
+                              value: "KSCST",
+                              onChanged: (value) {
+                                setState(() {
+                                  dept = value.toString();
+                                });
+                              },
+                              items: departments
+                                  .map((item) => DropdownMenuItem(
+                                        value: item['department_name'],
+                                        child:
+                                            Text('${item['department_name']}'),
+                                      ))
+                                  .toList(),
+
+                              // add extra sugar..
+                              icon: Icon(Icons.arrow_drop_down),
+                              iconSize: 42,
+                              underline: SizedBox(),
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
@@ -115,6 +175,9 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('mail', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -151,6 +214,9 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                           SizedBox(
                             width: 270,
                             child: TextFormField(
+                              onChanged: (text) {
+                                enterData('password', text);
+                              },
                               style: const TextStyle(
                                 color: Colors.black,
                               ),
@@ -200,7 +266,17 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                             ),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          http.Response response = await login(
+                              userData['mail'], userData['password']);
+                          Map res = json.decode(response.body);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DepartmentDashboard(
+                                    userId: res['_id'], deptName: dept)),
+                          );
+                        },
                         child: const Text(
                           'Login',
                           style: TextStyle(color: Colors.white, fontSize: 16),

@@ -284,7 +284,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => DashboardScreen(
-                                        usermail: userData['mail'],
+                                        userId: userData['_id'],
                                       )));
                         },
                         child: const Text(

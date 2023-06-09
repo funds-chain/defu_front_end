@@ -38,6 +38,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   flutter_svg: ^2.0.5
   image_picker: ^0.8.7+5
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
   flutter_test:

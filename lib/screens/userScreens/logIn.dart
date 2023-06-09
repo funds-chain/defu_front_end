@@ -219,7 +219,7 @@ class _LogInState extends State<LogIn> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => DashboardScreen(
-                                      usermail: userData['mail'],
+                                      userId: res['_id'],
                                     )),
                           );
                         },

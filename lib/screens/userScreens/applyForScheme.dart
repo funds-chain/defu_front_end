@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:defu_front_end/screens/userScreens/dashboard.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
@@ -30,7 +32,9 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
 
   String stepKey = 'step1';
 
-  Map formDataFinal = {};
+  Map formDataFinal = {
+    "files": [],
+  };
 
   Map scheme = {
     "_id": "NA",
@@ -66,46 +70,46 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
       Map res = json.decode(response.body);
       setState(() {
         scheme = res['data'];
-        print(scheme);
       });
+    }
+
+    Future<Map<String, dynamic>> applyScheme(
+        dynamic data, List<dynamic> files) async {
+      //create multipart request for POST or PATCH method
+      var request = http.MultipartRequest(
+          "POST", Uri.parse("http://localhost:3000/appliedSchemes"));
+      //add text fields
+      request.fields["schemeId"] = data["schemeId"];
+      request.fields["userId"] = data["userId"];
+      request.fields["schemeFormFilledData"] =
+          json.encode(data["schemeFormFilledData"]);
+      List fileNames = [];
+      //create multipart using filepath, string or bytes
+      print(files);
+      for (var i = 0; i < files.length; i++) {
+        var pic =
+            await http.MultipartFile.fromPath("files", files[i]['_file'].path);
+        request.files.add(pic);
+        fileNames.add(files[i]['_key']);
+      }
+      request.fields["fileNames"] = json.encode(fileNames);
+      var response = await request.send();
+      //Get the response from the server
+      var responseData = await response.stream.toBytes();
+      var responseString = String.fromCharCodes(responseData);
+      return json.decode(responseString);
+      // return responseString;
     }
 
     if (scheme['_id'] == "NA") {
       getData();
     }
 
-    final Map formdata1 = {
-      'step1': {
-        'header': 'Fill the following Details',
-        'form': [
-          {'label': 'Temp name1', 'type': 'text'},
-          {'label': 'Temp name2', 'type': 'text'},
-          {'label': 'Upload Aadhar ', 'type': 'file'},
-        ]
-      },
-      'step2': {
-        'header': 'Fill the following Details',
-        'form': [
-          {'label': 'Temp name4', 'type': 'text'},
-          {'label': 'Temp name5', 'type': 'text'},
-          {'label': 'Temp name6', 'type': 'text'},
-          {'label': 'Temp name7', 'type': 'text'},
-          {'label': 'Temp2 name8', 'type': 'text'},
-          {'label': 'Temp3 name9', 'type': 'text'},
-        ]
-      },
-      'Ack': {
-        'header': 'I Acknowledge the terms and Conditions',
-        'body':
-            "There were 16 NAM countries participating and 17 foreign participants in the programme. There were 9 Indian participants from various states of India. The training programme focused on rainwater harvesting, ground water recharge from buildings, apartments, office complexes, corporate sectors, companies and various institutions. Open spaces both in urban and rural areas along with watershed management in farm sector was also covered. The training programme was supported by 22 resource persons from various institutions and different parts of India with 24 technical presentations. There were five Technical sessions covering the following topics: 1. Need for Rainwater Harvesting 2. Resource estimation 3. Methods of rainwater harvesting a) Harvesting, recharge, conservation b) Rainwater harvesting from roof tops and open spaces 4. Resource - water quality and effects (health, land, water source etc.) 5. Details of Rainwater harvesting roof tops and open spaces – design, plan, cost estimation etc. 6. Rainwater harvesting in small farms / agricultural fields 7. Conservation and artificial recharge, design, plan, cost estimation etc. 8. Ground water recharge - open space, dug wells, tube wells, trenches, farm ponds etc. There were two field visits for practical exposure on Rainwater Harvesting and Ground water recharge. The first one was in Bangalore to practically demonstrate rainwater harvesting at different sectors."
-      }
-    };
     Map formdata = scheme["schemeFormMetaData"];
     List formKeys = createMapList(formdata);
 
     void enterToFinalFormData(String key, String value) {
       formDataFinal[key] = value;
-      print(formDataFinal);
     }
 
     Color getStepColor(item) {
@@ -161,6 +165,12 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
                             );
                             if (pickedFile != null) {
                               File imageFile = File(pickedFile.path);
+                              formDataFinal['files'].add(
+                                  {"_key": item['label'], "_file": imageFile});
+                              setState(() {
+                                stepKey = stepKey;
+                                formDataFinal = formDataFinal;
+                              });
                             }
                           },
                           child: Container(
@@ -214,6 +224,7 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
                             decoration: InputDecoration(
                               hintText: item['label'],
                             ),
+                            initialValue: formDataFinal[item['label']],
                             onChanged: (text) {
                               enterToFinalFormData(item['label'], text);
                             },
@@ -238,6 +249,42 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
             height: 20,
           ),
           GetInnerFormWidget(item['form']),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                  borderRadius: BorderRadius.circular(12.0),
+                ),
+                child: TextButton(
+                  onPressed: () {
+                    String item = "";
+                    for (var i = 0; i < formKeys.length; i++) {
+                      if (formKeys[i] == stepKey) {
+                        item = formKeys[i + 1];
+                      }
+                    }
+                    setState(() {
+                      stepKey = item;
+                      formDataFinal = formDataFinal;
+                    });
+                  },
+                  child: Text(
+                    'next step',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
         ],
       );
     }
@@ -333,7 +380,31 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
                               height: 20,
                             ),
                             ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                List files = formDataFinal['files'];
+                                formDataFinal['files'] = [];
+                                Map resData = {
+                                  "schemeId": widget.schemeId,
+                                  "userId": widget.userId,
+                                  "schemeFormFilledData": formDataFinal
+                                };
+                                dynamic res = await applyScheme(resData, files);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => DashboardScreen(
+                                              userId: widget.userId,
+                                            )));
+                                Fluttertoast.showToast(
+                                    msg: res["message"],
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 8,
+                                    backgroundColor:
+                                        Color.fromRGBO(114, 175, 16, 1),
+                                    textColor: Colors.white,
+                                    fontSize: 24.0);
+                              },
                               child: Padding(
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 15, 0, 15),

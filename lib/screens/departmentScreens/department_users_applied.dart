@@ -1,11 +1,9 @@
 import 'package:defu_front_end/Models/appliedUsers.dart';
 import 'package:flutter/material.dart';
-import 'package:defu_front_end/Models/department_schemes_open.dart';
-
 
 class AppliedUsers extends StatefulWidget {
-  const AppliedUsers({Key? key,required this.scheme}) : super(key: key);
-  final department_Schemes_Open scheme;
+  const AppliedUsers({Key? key, required this.scheme}) : super(key: key);
+  final Map scheme;
 
   @override
   State<AppliedUsers> createState() => _AppliedUsersState();
@@ -13,7 +11,6 @@ class AppliedUsers extends StatefulWidget {
 
 class _AppliedUsersState extends State<AppliedUsers> {
   @override
-
   List<UsersAppliedSchemes> Users = [
     new UsersAppliedSchemes(name: 'Name 1', id: 'Id 1', age: 30),
     new UsersAppliedSchemes(name: 'Name 2', id: 'Id 2', age: 30),
@@ -21,7 +18,7 @@ class _AppliedUsersState extends State<AppliedUsers> {
     new UsersAppliedSchemes(name: 'Name 4', id: 'Id 4', age: 30),
   ];
 
-  Widget SchemeBuilder(){
+  Widget SchemeBuilder() {
     return ListView.builder(
       itemCount: Users.length,
       itemBuilder: (context, index) {
@@ -48,12 +45,12 @@ class _AppliedUsersState extends State<AppliedUsers> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text('Application ID',
-                          style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600
-                          ),
+                          Text(
+                            'Application ID',
+                            style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
                           )
                         ],
                       ),
@@ -65,25 +62,27 @@ class _AppliedUsersState extends State<AppliedUsers> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Center(
-                          child: Text('23 Oct 2023',
+                          child: Text(
+                            '23 Oct 2023',
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
-                                fontWeight: FontWeight.bold
-                            ),),
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(30),
                       ),
                       child: Column(
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(
                               height: 5,
@@ -94,11 +93,11 @@ class _AppliedUsersState extends State<AppliedUsers> {
                                   padding: const EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius:
-                                    BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: 5,
@@ -110,20 +109,23 @@ class _AppliedUsersState extends State<AppliedUsers> {
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 20,
-                                              fontWeight:
-                                              FontWeight.bold,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          SizedBox(width: 120,),
+                                          SizedBox(
+                                            width: 120,
+                                          ),
                                           Container(
                                             height: 40,
                                             decoration: BoxDecoration(
                                               color: Colors.blueAccent,
-                                              borderRadius: BorderRadius.circular(12.0),
+                                              borderRadius:
+                                                  BorderRadius.circular(12.0),
                                             ),
                                             child: TextButton(
-                                              onPressed: (){},
-                                              child: Text('Verify Application',
+                                              onPressed: () {},
+                                              child: Text(
+                                                'Verify Application',
                                                 style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 16,
@@ -138,7 +140,9 @@ class _AppliedUsersState extends State<AppliedUsers> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 10,),
+                            SizedBox(
+                              height: 10,
+                            ),
                             Row(
                               children: [
                                 SizedBox(
@@ -154,9 +158,7 @@ class _AppliedUsersState extends State<AppliedUsers> {
                                 ),
                               ],
                             ),
-                          ]
-                      )
-                  ),
+                          ])),
                 ],
               ),
             ),
@@ -166,100 +168,98 @@ class _AppliedUsersState extends State<AppliedUsers> {
     );
   }
 
-    Widget build(BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.black,
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              size: 35,
-              color: Color(0xff9747FF),
-            ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.black,
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 35,
+            color: Color(0xff9747FF),
           ),
-          title: const Text('Dashboard',
+        ),
+        title: const Text(
+          'Dashboard',
           style: TextStyle(
             fontSize: 24,
-          ),),
-          actions: [
-            Container(
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(12.0),
-              ),
-              child: TextButton(
-                onPressed: (){},
-                child: Text('Disable Scheme',
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            )
-          ],
+          ),
         ),
-
-        body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Image(
-                      image: AssetImage('assets/images/schema.png')
-                  ),
-                  Text('Department',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold
-                    ),
-                  ),
-                ],
+        actions: [
+          Container(
+            height: 10,
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                'Disable Scheme',
+                style: TextStyle(
+                  color: Colors.blueAccent,
+                  fontSize: 16,
+                ),
               ),
-              SizedBox(height: 10,),
-              Text('${widget.scheme.name}',
+            ),
+          )
+        ],
+      ),
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Image(image: AssetImage('assets/images/schema.png')),
+                Text(
+                  'Department',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '${widget.scheme['schemeName']}',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '23 March 2023',
               style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold
-                ),
-              ),
-              Text('23 March 2023',
+                  color: Colors.grey,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            SingleChildScrollView(
+              child: Text(
+                '${widget.scheme['description']}',
                 style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600
-                ),
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400),
               ),
-              SizedBox(height: 15,),
-              SingleChildScrollView(
-                child: Text('${widget.scheme.description}',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400
-                ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              Text('Applications Received',
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Text(
+              'Applications Received',
               style: TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
-                  fontSize: 22
-                ),
-              ),
-              Container(
-                  height: 400,
-                  child: SchemeBuilder()),
-            ],
-          ),
+                  fontSize: 22),
+            ),
+            Container(height: 400, child: SchemeBuilder()),
+          ],
         ),
-      );
+      ),
+    );
   }
 }
-
-
