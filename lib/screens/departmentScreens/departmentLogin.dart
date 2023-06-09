@@ -22,6 +22,7 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
     http.Response response = await getDepartments();
     Map res = json.decode(response.body);
     setState(() {
+      dept = dept;
       departments = res['data'];
     });
   }
@@ -43,6 +44,7 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
 
   void enterData(String key, dynamic value) {
     setState(() {
+      dept = dept;
       Map temp = userData;
       temp[key] = value;
       userData = temp;
@@ -130,6 +132,7 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
                             child: DropdownButton(
                               value: "KSCST",
                               onChanged: (value) {
+                                print(value);
                                 setState(() {
                                   dept = value.toString();
                                 });

@@ -105,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     setState(() {
-      user = res['data'][0];
+      user = res['data'];
       exploreSchemes = resSchemes['data'];
       appliedSchemes = resSchemesApplied['data'];
     });

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:defu_front_end/screens/departmentScreens/department_users_applied.dart';
+import 'package:defu_front_end/screens/departmentScreens/showUsersApplied.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -248,13 +248,13 @@ class _DepartmentDashboardState extends State<DepartmentDashboard> {
   void getData(String id) async {
     http.Response response = await getUserDetails(id);
     Map res = json.decode(response.body);
-
+    print(res);
     http.Response responseSchemes =
         await getSchemeDetailsForUser(widget.deptName);
     Map resSchemes = json.decode(responseSchemes.body);
 
     setState(() {
-      user = res['data'][0];
+      user = res['data'];
       openSchemes = resSchemes['data'];
       closedSchemes = resSchemes['data'];
     });
@@ -622,8 +622,10 @@ class _DepartmentDashboardState extends State<DepartmentDashboard> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            AppliedUsers(scheme: scheme)));
+                                        builder: (context) => ShowUsersApplied(
+                                              depUser: user,
+                                              schemeId: scheme['_id'],
+                                            )));
                               },
                             );
                           },

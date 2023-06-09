@@ -5,7 +5,6 @@ import 'package:defu_front_end/screens/departmentScreens/departmentDashboard.dar
 import 'package:defu_front_end/screens/departmentScreens/departmentLogin.dart';
 import 'package:defu_front_end/screens/departmentScreens/editUser.dart';
 import 'package:defu_front_end/screens/departmentScreens/showUsersApplied.dart';
-import 'package:defu_front_end/screens/departmentScreens/verifyApplication.dart';
 import 'package:defu_front_end/screens/departmentScreens/viewUsers.dart';
 import 'package:defu_front_end/screens/userScreens/ConfirmPIN.dart';
 import 'package:defu_front_end/screens/userScreens/SetPin.dart';
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'ShowUsersApplied',
+      initialRoute: 'departmentLogin',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen': (context) => const LogIn(),
@@ -45,8 +44,8 @@ class MyApp extends StatelessWidget {
         'viewUsers': (context) => const ViewUsers(),
         'createUser': (context) => const CreateUser(),
         'editUser': (context) => const EditUser(),
-        'verifyApplication': (context) =>
-            const VerifyApplication(userType: 'verification-officer'),
+        // 'verifyApplication': (context) =>
+        //     const VerifyApplication(userType: 'verification-officer'),
         'applicationStatus': (context) => const ApplicationStatus(),
         'createScheme': (context) => const CreateScheme(),
         'ShowUsersApplied': (context) => const ShowUsersApplied(

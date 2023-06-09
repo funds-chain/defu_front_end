@@ -67,6 +67,7 @@ class _ShowUsersAppliedState extends State<ShowUsersApplied> {
           await getUserDetails(responseApplic['data'][i]['userId']);
       Map responseUser = json.decode(response.body);
       responseApplic['data'][i]['user'] = responseUser['data'];
+      responseApplic['data'][i]['scheme'] = responseScheme['data'];
     }
 
     setState(() {
@@ -150,8 +151,10 @@ class _ShowUsersAppliedState extends State<ShowUsersApplied> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 VerifyApplication(
-                                                    userType: widget
-                                                        .depUser['role'])),
+                                                    depUser: widget.depUser,
+                                                    userType:
+                                                        widget.depUser['role'],
+                                                    application: member)),
                                       );
                                     },
                                     child: Text(
