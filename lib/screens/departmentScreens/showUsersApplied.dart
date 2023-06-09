@@ -83,110 +83,114 @@ class _ShowUsersAppliedState extends State<ShowUsersApplied> {
       children: applications
           .map((member) => new Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Color.fromRGBO(
-                          226, 226, 226, 1), // Replace with your desired color
-                    ),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Row(
-                            children: [
-                              Column(
-                                children: [
-                                  Text(member['_id'].substring(0, 14),
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500)),
-                                  Text('Application ID',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500)),
-                                ],
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: Text(
-                                  member['schemeAppliedDate'].substring(0, 10),
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
+                  if (member['schemeStatus'] != 'approved') ...[
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Color.fromRGBO(226, 226, 226,
+                            1), // Replace with your desired color
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(member['_id'].substring(0, 14),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    Text('Application ID',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500)),
+                                  ],
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                 ),
-                                style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20.0),
-                                    )),
-                              ),
-                            ],
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Row(
-                                children: [
-                                  Text(member['user']['username'],
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w500)),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                VerifyApplication(
-                                                    depUser: widget.depUser,
-                                                    userType:
-                                                        widget.depUser['role'],
-                                                    application: member)),
-                                      );
-                                    },
-                                    child: Text(
-                                      'Verify Application',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14,
-                                        color: Colors.white,
-                                      ),
+                                ElevatedButton(
+                                  onPressed: () {},
+                                  child: Text(
+                                    member['schemeAppliedDate']
+                                        .substring(0, 10),
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: Colors.black,
                                     ),
-                                    style: ElevatedButton.styleFrom(
-                                        primary:
-                                            Color.fromRGBO(61, 137, 245, 1),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
-                                        )),
                                   ),
-                                ],
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.white,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(20.0),
+                                      )),
+                                ),
+                              ],
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
+                                  children: [
+                                    Text(member['user']['username'],
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500)),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  VerifyApplication(
+                                                      depUser: widget.depUser,
+                                                      userType: widget
+                                                          .depUser['role'],
+                                                      application: member)),
+                                        );
+                                      },
+                                      child: Text(
+                                        'Verify Application',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 14,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                          primary:
+                                              Color.fromRGBO(61, 137, 245, 1),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20.0),
+                                          )),
+                                    ),
+                                  ],
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ]
                 ],
               ))
           .toList(),

@@ -96,7 +96,7 @@ class _VerifyApplicationState extends State<VerifyApplication> {
         body: json.encode(<String, dynamic>{
           "appliedSchemesId": widget.application["_id"],
           "userId": widget.application['user']['_id'],
-          "schemeStatus": "verified",
+          "schemeStatus": "approved",
           "schemeApprovedBy": depUserId,
           "schemeSanctionedAmount": widget.application['scheme']
               ['schemeSanctionedAmount']
