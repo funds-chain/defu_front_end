@@ -16,7 +16,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   Future<http.Response> login(String mail, String password) async {
     return http.post(
-      Uri.parse('http://localhost:3000/auth/login'),
+      Uri.parse('http://192.168.1.5:3000/auth/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

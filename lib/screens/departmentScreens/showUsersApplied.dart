@@ -45,16 +45,16 @@ class _ShowUsersAppliedState extends State<ShowUsersApplied> {
 
   Future<http.Response> getSchemeDetailsSingle() async {
     return http
-        .get(Uri.parse('http://localhost:3000/schemes/${widget.schemeId}'));
+        .get(Uri.parse('http://192.168.1.5:3000/schemes/${widget.schemeId}'));
   }
 
   Future<http.Response> getSchemeApplications() async {
     return http.get(Uri.parse(
-        'http://localhost:3000/appliedSchemesByScheme/${widget.schemeId}'));
+        'http://192.168.1.5:3000/appliedSchemesByScheme/${widget.schemeId}'));
   }
 
   Future<http.Response> getUserDetails(String id) async {
-    return http.get(Uri.parse('http://localhost:3000/user/id/${id}'));
+    return http.get(Uri.parse('http://192.168.1.5:3000/user/id/${id}'));
   }
 
   void getData() async {

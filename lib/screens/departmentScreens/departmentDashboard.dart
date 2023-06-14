@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:defu_front_end/screens/departmentScreens/createScheme.dart';
 import 'package:defu_front_end/screens/departmentScreens/showUsersApplied.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -229,20 +230,20 @@ class _DepartmentDashboardState extends State<DepartmentDashboard> {
   ];
 
   Future<http.Response> getUserDetails(String id) async {
-    return http.get(Uri.parse('http://localhost:3000/user/id/${id}'));
+    return http.get(Uri.parse('http://192.168.1.5:3000/user/id/${id}'));
   }
 
   Future<http.Response> getSchemeDetails() async {
-    return http.get(Uri.parse('http://localhost:3000/schemes'));
+    return http.get(Uri.parse('http://192.168.1.5:3000/schemes'));
   }
 
   Future<http.Response> getSchemeDetailsSingle(String id) async {
-    return http.get(Uri.parse('http://localhost:3000/schemes/${id}'));
+    return http.get(Uri.parse('http://192.168.1.5:3000/schemes/${id}'));
   }
 
   Future<http.Response> getSchemeDetailsForUser(String id) async {
     return http
-        .get(Uri.parse('http://localhost:3000/schemes/bydepartment/${id}'));
+        .get(Uri.parse('http://192.168.1.5:3000/schemes/bydepartment/${id}'));
   }
 
   void getData(String id) async {
@@ -446,12 +447,31 @@ class _DepartmentDashboardState extends State<DepartmentDashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Schemes Open',
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Schemes Open',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => CreateScheme(
+                                          deptName: widget.deptName)));
+                            },
+                            icon: const Icon(
+                              Icons.add_circle_rounded,
+                              size: 45,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 10,

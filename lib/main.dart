@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: 'departmentLogin',
+      initialRoute: 'departmentDashboard',
       routes: {
         'signUpScreen': (context) => const SignUpScreen(),
         'logInScreen': (context) => const LogIn(),
@@ -47,7 +47,9 @@ class MyApp extends StatelessWidget {
         // 'verifyApplication': (context) =>
         //     const VerifyApplication(userType: 'verification-officer'),
         'applicationStatus': (context) => const ApplicationStatus(),
-        'createScheme': (context) => const CreateScheme(),
+        'createScheme': (context) => const CreateScheme(
+              deptName: 'KSCST',
+            ),
         'ShowUsersApplied': (context) => const ShowUsersApplied(
               schemeId: "6478f5d8d86e57f0f03825cd",
               depUser: {"role": "verificationOfficer"},

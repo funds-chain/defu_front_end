@@ -18,7 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Future<http.Response> register(String mail, String username,
       String aadharNumber, String password) async {
     return http.post(
-      Uri.parse('http://localhost:3000/auth/register'),
+      Uri.parse('http://192.168.1.5:3000/auth/register'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },

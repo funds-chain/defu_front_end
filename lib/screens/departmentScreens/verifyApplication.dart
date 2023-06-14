@@ -89,7 +89,7 @@ class _VerifyApplicationState extends State<VerifyApplication> {
     Future<http.Response> verifyApplication(String depUserId) async {
       return http.post(
         Uri.parse(
-            'http://localhost:3000/appliedSchemes/verify/finishVerification'),
+            'http://192.168.1.5:3000/appliedSchemes/verify/finishVerification'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },

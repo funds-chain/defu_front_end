@@ -62,7 +62,7 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
     final String schemeDate = scheme["schemeStartDate"].substring(0, 10);
 
     Future<http.Response> getSchemeDetails(String id) async {
-      return http.get(Uri.parse('http://localhost:3000/schemes/${id}'));
+      return http.get(Uri.parse('http://192.168.1.5:3000/schemes/${id}'));
     }
 
     void getData() async {
@@ -77,7 +77,7 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
         dynamic data, List<dynamic> files) async {
       //create multipart request for POST or PATCH method
       var request = http.MultipartRequest(
-          "POST", Uri.parse("http://localhost:3000/appliedSchemes"));
+          "POST", Uri.parse("http://192.168.1.5:3000/appliedSchemes"));
       //add text fields
       request.fields["schemeId"] = data["schemeId"];
       request.fields["userId"] = data["userId"];
@@ -299,7 +299,9 @@ class _ApplyForSchemeState extends State<ApplyForScheme> {
             onPressed: () {},
             child: IconButton(
               icon: Icon(Icons.arrow_back),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
           title: Text('Apply For Scheme'),

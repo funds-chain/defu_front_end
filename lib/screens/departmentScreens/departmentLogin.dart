@@ -15,7 +15,7 @@ class DepartmentLogin extends StatefulWidget {
 class _DepartmentLoginState extends State<DepartmentLogin> {
   Future<http.Response> getDepartments() async {
     return http
-        .get(Uri.parse('http://localhost:3000/department/getDepartments'));
+        .get(Uri.parse('http://192.168.1.5:3000/department/getDepartments'));
   }
 
   void getData() async {
@@ -29,7 +29,7 @@ class _DepartmentLoginState extends State<DepartmentLogin> {
 
   Future<http.Response> login(String mail, String password) async {
     return http.post(
-      Uri.parse('http://localhost:3000/auth/login'),
+      Uri.parse('http://192.168.1.5:3000/auth/login'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
